@@ -22,7 +22,7 @@ module testbench();
     wire r_clk;
 
     // Instantiate the FIFO top module
-    top #(WIDTH, DEPTH) fifo_inst (
+    tt_um_reemashivva_fifo #(WIDTH, DEPTH) fifo_inst (
         .clk_in(clk_in),
         .rst_n(rst_n),
         .wr_rq(wr_rq),
