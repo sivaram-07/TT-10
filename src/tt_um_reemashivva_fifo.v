@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module tt_um_reemashivva_fifo
-#(parameter WIDTH = 8, 
+#(parameter WIDTH = , 
   parameter DEPTH = 8
 )
 (
