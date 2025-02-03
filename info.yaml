@@ -23,6 +23,7 @@ project:
     - "fifo_mem.v"
     - "sync_r2w.v"
     - "sync_w2r.v"
+    -"tt_um_reemashivva_fifo.v"
     
     
 
