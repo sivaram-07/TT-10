@@ -1,49 +1,87 @@
-`default_nettype none
 `timescale 1ns / 1ps
 
-/* This testbench just instantiates the module and makes some convenient wires
-   that can be driven / tested by the cocotb test.py.
-*/
-module tb ();
+module testbench();
 
-  // Dump the signals to a VCD file. You can view it with gtkwave or surfer.
-  initial begin
-    $dumpfile("tb.vcd");
-    $dumpvars(0, tb);
-    #1;
-  end
+    parameter WIDTH = 4, DEPTH = 8;
 
-  // Wire up the inputs and outputs:
-  reg clk;
-  reg rst_n;
-  reg ena;
-  reg [7:0] ui_in;
-  reg [7:0] uio_in;
-  wire [7:0] uo_out;
-  wire [7:0] uio_out;
-  wire [7:0] uio_oe;
-`ifdef GL_TEST
-  wire VPWR = 1'b1;
-  wire VGND = 1'b0;
-`endif
+    // Signals for FIFO testbench
+    reg clk_in;
+    reg rst_n;
+    reg wr_rq, rd_rq;
+    wire full, empty;
+    reg [WIDTH-1:0] wdata;
+    wire [WIDTH-1:0] rdata;
 
-  // Replace tt_um_example with your module name:
-  tt_um_reemashivva_fifo (
+    // Internal variables for FIFO verification
+    reg [WIDTH-1:0] fifo [0:DEPTH-1]; // Verification FIFO
+    reg [$clog2(DEPTH)-1:0] wptr = 0; // Write pointer
+    reg [$clog2(DEPTH)-1:0] rptr = 0;  // Read pointer
 
-      // Include power ports for the Gate Level test:
-`ifdef GL_TEST
-      .VPWR(VPWR),
-      .VGND(VGND),
-`endif
+    // Clock divider signals
+    wire w_clk;
+    wire r_clk;
 
-      .ui_in  (ui_in),    // Dedicated inputs
-      .uo_out (uo_out),   // Dedicated outputs
-      .uio_in (uio_in),   // IOs: Input path
-      .uio_out(uio_out),  // IOs: Output path
-      .uio_oe (uio_oe),   // IOs: Enable path (active high: 0=input, 1=output)
-      .ena    (ena),      // enable - goes high when design is selected
-      .clk    (clk),      // clock
-      .rst_n  (rst_n)     // not reset
-  );
+    // Instantiate the FIFO top module
+    tt_um_reemashivva_fifo #(WIDTH, DEPTH) fifo_inst (
+        .clk_in(clk_in),
+        .rst_n(rst_n),
+        .wr_rq(wr_rq),
+        .rd_rq(rd_rq),
+        .wdata(wdata),
+        .rdata(rdata),
+        .full(full),
+        .empty(empty)
+    );
 
+    // Instantiate the clock divider module
+    clock_divider clock_div_inst (
+        .clk_in(clk_in),
+        .reset(~rst_n), // Active-high reset for clock divider
+        .w_clk(w_clk),
+        .r_clk(r_clk)
+    );
+
+    // Generate input clock (100 MHz = 10 ns period)
+    initial begin
+        clk_in = 0;
+        forever #5 clk_in = ~clk_in;
+    end
+
+    initial begin
+        rst_n = 1;
+        wr_rq = 0;
+        rd_rq = 0;
+        wdata = 0;
+        #10 rst_n = 0;  
+        #20 rst_n = 1;  
+
+        #13 wr_rq=1;rd_rq=1;
+        fork
+            // Write operation
+            repeat (150) begin
+                @(posedge w_clk);
+                if (!full) begin
+                    wdata = $random();           
+                    fifo[wptr] = wdata;     
+                    wptr = (wptr + 1) % DEPTH; 
+                end
+                             
+                
+                #10; 
+            end
+
+            
+            forever begin
+                @(posedge r_clk);
+                if (!empty && rd_rq) begin               
+                    rptr = (rptr + 1) % DEPTH; 
+                end
+               
+            end
+        join        
+    end
+
+   
 endmodule
+
+
