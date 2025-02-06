@@ -38,7 +38,7 @@ module tt_um_reemashivva_fifo (
  wire wdata[2] = ui_in[6];
  wire wdata[3] = ui_in[7];
 
- assign uo_out={0,0,rdata[3],rdata[2],rdata[1],rdata[0],empty,full}
+ assign uo_out={0,0,rdata[3],rdata[2],rdata[1],rdata[0],empty,full};
     
  // All output pins must be assigned. If not used, assign to 0.
   assign uio_out = 0;
