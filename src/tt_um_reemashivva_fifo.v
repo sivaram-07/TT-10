@@ -24,7 +24,7 @@ module tt_um_reemashivva_fifo
   parameter DEPTH = 8
 )
 (
-    input wire clk_in,          // Input clock for clock divider
+    input wire clk,          // Input clock for clock divider
     input wire rst_n,           // Active-low reset
     input wire wr_rq,           // Write request
     input wire rd_rq,           // Read request
@@ -48,7 +48,7 @@ module tt_um_reemashivva_fifo
 
     // Instantiate the clock divider
     clock_divider clk_div_inst (
-        .clk_in(clk_in),
+        .clk(clk),
         .reset(~rst_n),
         .w_clk(w_clk),
         .r_clk(r_clk)
