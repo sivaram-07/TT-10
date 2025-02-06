@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 module clock_divider(
-    input clk_in,        // Input clock (assumed 100 MHz for this example)
+    input clk,        // Input clock (assumed 100 MHz for this example)
     input reset,         // Synchronous reset
     output reg w_clk,   // 50 MHz write clock output
     output reg r_clk    // 30 MHz read clock output
@@ -10,7 +10,7 @@ module clock_divider(
     reg [2:0] rd_counter = 3'b000; // Counter for read clock division
 
     // Generate 50 MHz clock (divide by 1.2)
-    always @(posedge clk_in or posedge reset) begin
+    always @(posedge clk or posedge reset) begin
         if (reset) begin
             wr_counter <= 3'b000;
             w_clk <= 1'b0;
@@ -23,7 +23,7 @@ module clock_divider(
     end
 
     // Generate 30 MHz clock (approximate divide by 2)
-    always @(posedge clk_in or posedge reset) begin
+    always @(posedge clk or posedge reset) begin
         if (reset) begin
             rd_counter <= 3'b000;
             r_clk <= 1'b0;
