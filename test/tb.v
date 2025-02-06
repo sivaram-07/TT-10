@@ -5,7 +5,7 @@ module testbench();
     parameter WIDTH = 4, DEPTH = 8;
 
     // Signals for FIFO testbench
-    reg clk_in;
+    reg clk;
     reg rst_n;
     reg wr_rq, rd_rq;
     wire full, empty;
@@ -23,7 +23,7 @@ module testbench();
 
     // Instantiate the FIFO top module
     tt_um_reemashivva_fifo #(WIDTH, DEPTH) fifo_inst (
-        .clk_in(clk_in),
+        .clk(clk),
         .rst_n(rst_n),
         .wr_rq(wr_rq),
         .rd_rq(rd_rq),
@@ -35,7 +35,7 @@ module testbench();
 
     // Instantiate the clock divider module
     clock_divider clock_div_inst (
-        .clk_in(clk_in),
+        .clk(clk),
         .reset(~rst_n), // Active-high reset for clock divider
         .w_clk(w_clk),
         .r_clk(r_clk)
@@ -43,8 +43,8 @@ module testbench();
 
     // Generate input clock (100 MHz = 10 ns period)
     initial begin
-        clk_in = 0;
-        forever #5 clk_in = ~clk_in;
+        clk = 0;
+        forever #5 clk = ~clk;
     end
 
     initial begin
