@@ -33,10 +33,10 @@ module tt_um_reemashivva_fifo (
  
  wire wr_rq = ui_in[2];
  wire rd_rq = ui_in[3];
- wire wdata[0] = ui_in[4];
- wire wdata[1] = ui_in[5];
- wire wdata[2] = ui_in[6];
- wire wdata[3] = ui_in[7];
+ reg wdata[0] = ui_in[4];
+ reg wdata[1] = ui_in[5];
+ reg wdata[2] = ui_in[6];
+ reg wdata[3] = ui_in[7];
 
  assign uo_out={0,0,rdata[3],rdata[2],rdata[1],rdata[0],empty,full};
     
