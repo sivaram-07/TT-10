@@ -4,6 +4,7 @@
  */
 
 `default_nettype none
+'timescale 1ns/1ps
 
 parameter WIDTH = 4;
 parameter DEPTH = 8;
