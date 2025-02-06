@@ -30,7 +30,7 @@ project:
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 pinout:
   # Inputs
-  ui[0]: "clk_in"
+  ui[0]: ""
   ui[1]: "rst_n"
   ui[2]: "wr_rq"
   ui[3]: "rd_rq"
