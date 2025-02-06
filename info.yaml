@@ -31,7 +31,7 @@ project:
 pinout:
   # Inputs
   ui[0]: ""
-  ui[1]: "rst_n"
+  ui[1]: ""
   ui[2]: "wr_rq"
   ui[3]: "rd_rq"
   ui[4]: "wdata[0]"
