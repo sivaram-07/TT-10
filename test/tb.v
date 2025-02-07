@@ -41,6 +41,8 @@ module testbench();
         .r_clk(r_clk)
     );
 
+    
+
     // Generate a clock (10 ns period = 100 MHz)
     initial begin
         clk = 0;
@@ -83,5 +85,13 @@ module testbench();
             end
         join        
     end
+
+    initial begin
+        
+        $dumpfile("fifo.vcd");
+        $dumpvars;
+    end
+
+
 
 endmodule
