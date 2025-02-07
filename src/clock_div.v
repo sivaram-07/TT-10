@@ -1,4 +1,4 @@
-`include "timescale.vh"
+
 `timescale 1ns / 1ps
 module clock_divider(
     input clk,        // Input clock (assumed 100 MHz for this example)
