@@ -50,7 +50,7 @@ module fifo_mem
     if (rd_rq && !empty) begin
       rdata <= fifo[raddr];
     end else begin
-      rdata = {WIDTH{1'b0}};
+      rdata <= {WIDTH{1'b0}};
     end
   end
 
