@@ -4,6 +4,7 @@
  */
 
 `default_nettype none
+`include "timescale.vh"
 `timescale 1ns/1ps
 
 parameter WIDTH = 4;
