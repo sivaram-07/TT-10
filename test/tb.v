@@ -34,12 +34,7 @@ module testbench();
     );
 
     // Instantiate the clock divider module
-    clock_divider clock_divider_inst (
-        .clk(clk),
-        .reset(~rst_n), 
-        .w_clk(w_clk),
-        .r_clk(r_clk)
-    );
+
 
     
 
